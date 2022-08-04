@@ -56,6 +56,7 @@ window.onload = function() {
     loadTalents();
     loadImage();
     renderRight();
+    loadRig();
 }
 
 function updatePart(){

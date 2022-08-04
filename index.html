@@ -5,6 +5,7 @@
 	<script src="./data/layers.js"></script>
 	<script src="./data/talents.js"></script>
 	<script src="./js/main.js"></script>
+	<script src="./js/rig.js"></script>
 	<title>Test</title>
     <style>
         #imageDiv{
@@ -12,7 +13,7 @@
             border: solid 1px #333;
         }
         img {
-            zoom: 10;
+            zoom: 3;
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
@@ -28,6 +29,13 @@
             border: solid 1px #333;
             width: 480px;
             height: 640px;
+        }
+        #pixels_animate{
+            display: inline-block;
+            border: solid 1px #333;
+            width: 480px;
+            height: 640px;
+            background-color: #000;
         }
         .pixel {
             width: 10px;
@@ -46,6 +54,9 @@
         </div>
         <div id="pixels"></div>
         <div id="pixels_right"></div>
+        <div id="pixels_animate">
+            <canvas id="canvas" width="480" height="640"></canvas>
+        </div>
         <div id="controls">
             <label for="gender">Gender:</label>
             <select name="gender" id="gender">
