@@ -2,145 +2,22 @@ let startTime;
 let gTime; 
 let ctx = null;
 let workPos = null;
-let scale = 3;
-let size = 10*scale;
-let body = size*6;
-let arm = size*4;
-let leg = size*4;
-let neck = size*3;
-let head = size*2;
+let speed = 0.67;
 // The stick man rig with keyframes
 
-const man = {
-    parts: {
-        body: {
-            color: colors[1],
-            len: body,
-            ang: -Math.PI / 2,
-            // keys : [
-            //   {len : body, ang : -Math.PI * (5 / 8), time : 0},
-            //   {len : body, ang : -Math.PI * (3 / 8), time : 1.5},
-            //   {len : body, ang : -Math.PI * (5 / 8), time : 3},
-            // ],          
-            parts: {
-                right_arm: {
-                    color: colors[3],
-                    len: arm,
-                    ang: Math.PI * (9 / 8), // 1/8th is 22.5 deg
-                    keys : [
-                        {len : leg, ang : Math.PI * (9 / 8), time : 0},
-                        {len : leg, ang : Math.PI * (8 / 8), time : 1},
-                        {len : leg, ang : Math.PI * (7 / 8), time : 2},
-                        {len : leg, ang : Math.PI * (8 / 8), time : 3},
-                        {len : leg, ang : Math.PI * (9 / 8), time : 4},
-                    ],
-                    parts : {
-                        right_fore_arm : {
-                            color: colors[3],
-                            len: arm,
-                            ang: Math.PI * (7 / 8), // 1/8th is 22.5 deg
-                            keys : [
-                                {len : leg, ang : -Math.PI * (1 / 8), time : 0},
-                                {len : leg, ang : -Math.PI * (3 / 8), time : 1},
-                                {len : leg, ang : -Math.PI * (4 / 8), time : 2},
-                                {len : leg, ang : -Math.PI * (3 / 8), time : 3},
-                                {len : leg, ang : -Math.PI * (1 / 8), time : 4},
-                            ],
-                        }
-                    }
-                },
-                left_arm: {
-                    color: colors[2],
-                    len: arm,
-                    ang: Math.PI * (7 / 8), // 1/8th is 22.5 deg
-                    keys : [
-                        {len : leg, ang : Math.PI * (7 / 8), time : 0},
-                        {len : leg, ang : Math.PI * (8 / 8), time : 1},
-                        {len : leg, ang : Math.PI * (9 / 8), time : 2},
-                        {len : leg, ang : Math.PI * (8 / 8), time : 3},
-                        {len : leg, ang : Math.PI * (7 / 8), time : 4},
-                    ],
-                    parts : {
-                        left_fore_arm : {
-                            color: colors[2],
-                            len: arm,
-                            ang: Math.PI * (7 / 8), // 1/8th is 22.5 deg
-                            keys : [
-                                {len : leg, ang : -Math.PI * (4 / 8), time : 0},
-                                {len : leg, ang : -Math.PI * (3 / 8), time : 1},
-                                {len : leg, ang : -Math.PI * (1 / 8), time : 2},
-                                {len : leg, ang : -Math.PI * (3 / 8), time : 3},
-                                {len : leg, ang : -Math.PI * (4 / 8), time : 4},
-                            ],
-                        }
-                    }
-                },
-                neck: {
-                    color: colors[0],
-                    len: neck,
-                    ang: 0,
-                    parts: {
-                    head: {
-                        color: colors[0],
-                        size: head,
-                    }
-                }
-                }
-            }
-        },
-        right_leg: {
-            color: colors[4],
-            len: leg,
-            ang: Math.PI * (4 / 8), // 1/8th is 22.5 deg
-            keys : [
-                {len : leg, ang : Math.PI * (5 / 8), time : 0},
-                {len : leg, ang : Math.PI * (4 / 8), time : 1},
-                {len : leg, ang : Math.PI * (2 / 8), time : 2},
-                {len : leg, ang : Math.PI * (4 / 8), time : 3},
-                {len : leg, ang : Math.PI * (5 / 8), time : 4},
-            ],
-            parts : {
-                right_lower_leg : {
-                    color: colors[4],
-                    len: leg,
-                    ang: Math.PI * (7 / 8), // 1/8th is 22.5 deg
-                    keys : [
-                        {len : leg, ang : Math.PI * (2 / 8), time : 0},
-                        {len : leg, ang : Math.PI * (3 / 8), time : 1},
-                        {len : leg, ang : 0, time : 2},
-                        {len : leg, ang : Math.PI * (1 / 8), time : 3.5},
-                        {len : leg, ang : Math.PI * (2 / 8), time : 4},
-                    ],
-                }
-            }
-        },
-        left_leg: {
-            color: colors[5],
-            len: leg,
-            ang: Math.PI * (3 / 8), // 1/8th is 22.5 deg
-            keys : [
-                {len : leg, ang : Math.PI * (2 / 8), time : 0},
-                {len : leg, ang : Math.PI * (4 / 8), time : 1},
-                {len : leg, ang : Math.PI * (5 / 8), time : 2},
-                {len : leg, ang : Math.PI * (4 / 8), time : 3},
-                {len : leg, ang : Math.PI * (2 / 8), time : 4},
-                ],
-            parts : {
-                left_lower_leg : {
-                    color: colors[5],
-                    len: leg,
-                    ang: Math.PI * (7 / 8), // 1/8th is 22.5 deg
-                    keys : [
-                        {len : leg, ang : 0, time : 0},
-                        {len : leg, ang : Math.PI * (1 / 8), time : 1},
-                        {len : leg, ang : Math.PI * (2 / 8), time : 2},
-                        {len : leg, ang : Math.PI * (3 / 8), time : 3.5},
-                        {len : leg, ang : 0, time : 4},
-                    ],
-                }
-            }
-        }
+let man = updateRigSettings();
+
+function updateSpeed(){
+    let elm = document.getElementById('rigSpeed');
+    let val = parseInt(elm.value);
+    if(val <= 0){
+        val = 1;
+    } else if(val >= 100){
+        val = 99;
     }
+    elm.value = val;
+    speed = (100-val)/100;
+    man = updateRigSettings(man);
 }
 
 function loadRig(){
@@ -169,7 +46,7 @@ function findKeys(keys, gTime){
 }
 
 const eCurve   = (v, p = 2) =>  v < 0 ? 0 : v > 1 ? 1 : Math.pow(v, p) / (Math.pow(v, p) + Math.pow(1 - v, p));
-function tweenKeysEase(key1, key2, gTime, result = {}){
+function tweenKeys(key1, key2, gTime, result = {}){
     var totalTime = key2.time - key1.time;
     result.time = ((((gTime - key1.time) / totalTime) % 1) + 1) % 1;  
     result.time = eCurve(result.time); // add the ease in out
@@ -183,7 +60,7 @@ function tweenKeysEase(key1, key2, gTime, result = {}){
     return result;
 }
 
-function tweenKeys(key1, key2, gTime, result = {}){
+function tweenKeysOld(key1, key2, gTime, result = {}){
     var totalTime = key2.time - key1.time;
     result.time = ((((gTime - key1.time) / totalTime) % 1) + 1) % 1;        
     if (key1.x !== undefined) { result.x = (key2.x - key1.x) * result.time + key1.x }
@@ -263,7 +140,7 @@ function drawRig(x, y, ang, time, rig) {
     if (rig.parts) {
         // For each part attached to this node
         for (const part of Object.values(rig.parts)) {
-        drawRig(x1, y1, ang1, time,part);
+            drawRig(x1, y1, ang1, time,part);
         }
     }
 }

@@ -11,7 +11,7 @@ let selection = {
 let colors = [
     [255, 0, 0], // Red
     [0, 255, 0], // Green
-    [0, 0, 255], // Blue
+    [127, 127, 255], // Blue
     [255, 255, 0], // Yellow
     [0, 255, 255], // Cyan
     [255, 0, 255], // Magenta
@@ -39,6 +39,7 @@ let bodyMorph = [
     3,
 ];
 let selectPart = 0;
+let speedTimeout = null;
 window.onload = function() {
     document.getElementById('brokerID').addEventListener('change', ()=>{
         updateBroker();
@@ -51,6 +52,17 @@ window.onload = function() {
     })
     document.getElementById('part').addEventListener('change', ()=>{
         selectPart = document.getElementById('part').selectedIndex;
+    })
+
+    document.getElementById('rigSpeed').addEventListener('change', ()=>{
+        updateSpeed();
+    });
+    
+    document.getElementById('rigSpeed').addEventListener('mousedown', ()=>{
+        speedTimeout = setInterval(()=>{updateSpeed()}, 100);
+    })
+    document.getElementById('rigSpeed').addEventListener('mouseup', ()=>{
+        clearTimeout(speedTimeout);
     })
     loadGenders();
     loadTalents();
